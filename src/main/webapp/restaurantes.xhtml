@@ -1,45 +1,94 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
     
 <h:head>  
 	<title>Pantalla Restaurantes</title>
-	<h:outputStylesheet library="css" name="styles.css"></h:outputStylesheet>
+	<h:outputStylesheet library="css" name="styles.css" />
 </h:head>
 
 <h:body>
 		
-	<!-- ::::::::::::: AGREGA AQUI LA TABLA DE RESTAURANTES ::::::::::::::::::: -->
-	<h:dataTable id="tblRest" var="restaurante" value="#{restauranteController.restaurantes}" headerClass="headerTable" rowClasses="rowTable rowTableLine" >
-		<h:column>
-		
-			<f:facet name="header">Nombre</f:facet>
-			<h:outputText value="#{restaurante.nombre}"></h:outputText>
+<h:form>	
+	<p:dataTable id="tblRest" var="restaurante" value="#{restauranteController.restaurantes}" headerClass="headerTable" 
+	    rowClasses="rowTable rowTableLine" paginator="true" rows="10" rowsPerPageTemplate="5,10,{ShowAll|'All'}"
+	    paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
+	    currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} registros" >
 
-		</h:column>
-		
-		<h:column>
-		
-			<f:facet name="header">addr</f:facet>
-			<h:outputText value="#{restaurante.addr}"></h:outputText>
+			<f:facet name="{Exporters}" >
+				<div align="right"  >
 
-		</h:column>
-		
-		<h:column>
-		
-			<f:facet name="header">pais</f:facet>
-			<h:outputText value="#{restaurante.pais}"></h:outputText>
 
-		</h:column>
-		
-		<h:column>
-		
-			<f:facet name="header">Gerente</f:facet>
-			<h:outputText value="#{restaurante.gerente.nombre} #{restaurante.gerente.primerAp} #{restaurante.gerente.segundoAp} "></h:outputText>
+					<p:commandLink>
+						<p:dataExporter type="xlsxstream" target="tblRest"
+							fileName="ReporteRest" />
+						<p:graphicImage name="imgs/xlsx.png" width="2%"/>
+					</p:commandLink>
+					
+					<p:commandLink>
+						<p:dataExporter type="xls" target="tblRest" fileName="ReporteRest" />	
+						<p:graphicImage name="imgs/excel.png" width="2%"/>
+					</p:commandLink>
+					
+					<p:commandLink>
+						<p:dataExporter type="pdf" target="tblRest" fileName="ReporteRest" />
+						<p:graphicImage name="imgs/pdf.png" width="2%"/>
+					</p:commandLink>
 
-		</h:column>
+					<p:commandLink>
+						<p:dataExporter type="csv" target="tblRest" fileName="ReporteRest" />
+						<p:graphicImage name="imgs/csv.png" width="2%"/>
+					</p:commandLink>
+
+					<p:commandLink>
+						<p:dataExporter type="xml" target="tblRest" fileName="ReporteRest" />
+						<p:graphicImage name="imgs/xml.png" width="2%"/>
+					</p:commandLink>
+
+				</div>
+			</f:facet>
+
+
+
+			<!-- 		<h:column>	 -->
+<!-- 			<f:facet name="header">Nombre</f:facet> -->
+<!-- 			<h:outputText value="#{restaurante.nombre}"></h:outputText> -->
+<!-- 		</h:column> -->
 		
-	</h:dataTable>
+		<p:column headerText="Nombre" filterBy="#{restaurante.nombre}"  filterMatchMode="contains">
+			<h:outputText value="#{restaurante.nombre}" />
+		</p:column>
+		
+<!-- 		<h:column>		 -->
+<!-- 			<f:facet name="header">Direcion</f:facet> -->
+<!-- 			<h:outputText value="#{restaurante.addr}"></h:outputText> -->
+<!-- 		</h:column> -->
+		
+		<p:column headerText="Direccion" >
+			<h:outputText value="#{restaurante.addr}" />
+		</p:column>
+		
+<!-- 		<h:column>		 -->
+<!-- 			<f:facet name="header">Pais</f:facet> -->
+<!-- 			<h:outputText value="#{restaurante.pais}"></h:outputText> -->
+<!-- 		</h:column> -->
+		
+		<p:column headerText="Pais" filterBy="#{restaurante.pais}" filterMatchMode="contains" >
+			<h:outputText value="#{restaurante.pais}" />
+		</p:column>
+		
+<!-- 		<h:column>		 -->
+<!-- 			<f:facet name="header">Gerente</f:facet> -->
+<!-- 			<h:outputText value="#{restaurante.gerente.nombre} #{restaurante.gerente.primerAp} #{restaurante.gerente.segundoAp} "></h:outputText> -->
+<!-- 		</h:column> -->
+		
+		<p:column headerText="Gerente"  >
+			<h:outputText value="#{restaurante.gerente.nombre} #{restaurante.gerente.primerAp} #{restaurante.gerente.segundoAp}" />
+		</p:column>
+		
+	</p:dataTable>
+</h:form>	
 
 </h:body>
 
